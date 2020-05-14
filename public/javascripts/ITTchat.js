@@ -35,7 +35,7 @@ for (id in editIds) {
     el.addEventListener && el.addEventListener('click', function (event) {
         event.preventDefault();
         const ITTchatId = event.currentTarget.getAttribute('id').substr(event.currentTarget.getAttribute('id').lastIndexOf('-') + 1);
-        const ITTchatTitle = document.getElementById('title-'+ITTchatId).textContent;
+        const ITTchatTitle = document.getElementById('title-'+ITTchatId).textContent.trim();
         console.log(document.getElementById('confidentiality-'+ITTchatId).textContent);
         const ITTchatConfidentiality = document.getElementById('confidentiality-'+ITTchatId).textContent;
         console.log(ITTchatTitle);
