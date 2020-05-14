@@ -122,6 +122,7 @@ router.get('/', function (req, res, next) {
 
 /* Logout */
 router.delete('/', function (req, res, next) {
+  console.log('session destroy');
   req.session.destroy();
   res.json({
     status: true

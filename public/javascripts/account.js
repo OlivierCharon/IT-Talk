@@ -89,7 +89,6 @@ if (document.getElementById('logout')) {
             method: 'delete',
             headers: {
                 'accept': 'application/json',
-                'Content-Type': 'application/json'
             },
             credentials: "include",
         })

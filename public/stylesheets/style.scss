@@ -1,11 +1,44 @@
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
+.navbar.bg-dark {
+  background-color: #f15322 !important;
+}
+
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
+
+#index-container {
+  padding: 30vh;
+}
+
 a {
-  color: #00B7FF;
+  color: #f15322;
+  &:focus, &:hover, &:active{
+    text-decoration: none;
+    color: #f15322aa;
+    
+  }
+}
+
+footer h5 {
+  text-align: center;
+  color: #f15322;
+  margin: 25px;
+}
+
+.btn-primary {
+  background-color: #f15322;
+  border-color: #f15322;;
+  &:focus {
+    box-shadow: 0 0 0 0.2rem #f15322aa;
+    background-color: #f15322aa;
+    border-color: #f15322aa;
+  }
+  &:hover, &:active{
+    background-color: #f15322aa !important;
+    border-color: #f15322aa !important;
+  }
 }
 
 div#pp1 {
@@ -59,4 +92,64 @@ div#pp4 {
       background-size: 100%;
 	
 	
+}
+
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%; /* Could be more or less, depending on screen size */
+
+    /* The Close Button */
+    #close-create-tchat, #close-edit-tchat {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: end;
+      &:hover {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      &:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+
+
+
+.card.mb-4.box-shadow {
+  align-items: center;
+  text-align: center;
+    .card-img, .card-img-top {
+      max-width: 50%;
+      margin: 25px 0;
+    }
 }

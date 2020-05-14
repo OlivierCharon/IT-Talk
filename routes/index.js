@@ -23,56 +23,82 @@ router.use(function (req, res, next) {
 
 /* return le dashboard des rooms */
 router.get('/', function (req, res, next) {
-  res.render('dashboard', { title: 'IT-Talk'}); // DEBUG 
-  // Mongo.getInstance()
-  //   .collection('ITTRoom')
-  //   .find()
-  //   .toArray(function (err, result) {
-  //     if (err) {
-  //       throw err;
-  //     } else {
-  //       res.render('/dashboard', { title: 'IT-Talk', allITTRoom: result });
-  //     }
-  //   })
+  // res.render('dashboard', { title: 'IT-Talk' }); // DEBUG 
+  Mongo.getInstance()
+    .collection('ITTRoom')
+    .find({
+      $or: [{
+        id_owner: req.session.user._id,
+        confidentiality: true,
+      },
+        {
+confidentiality: false,
+        }]
+      })
+    .toArray(function (err, result) {
+      if (err) {
+        throw err;
+      } else {
+        res.render('dashboard', { title: 'IT-Talk', allITTchats: result, user_id: req.session.user._id });
+      }
+    })
 });
 
 /* create ITT Room */
 router.post('/', function (req, res, next) {
   var errors = [];
 
-  if (!req.body.title || !/^([\w\s]{6,})$/.test(req.body.title)) {
+  console.log(req.body);
+  console.log(req.body.confidentiality != true);
+  console.log(req.body.confidentiality != false);
+  console.log(req.body.confidentiality != true && req.body.confidentiality != false);
+  if (!req.body.title || !/^([\w\s]{3,})$/.test(req.body.title)) {
     errors.push('Titre');
   }
 
-  if (errors.length) {
-    return res.json({
-      status: false,
-      msg: 'Merci de vérifier les champs suivants: ' + errors.join(', ')
-    })
+  let confidentiality = null;
+  if (!req.body.confidentiality) {
+    errors.push('Confidentialité');
+  } else {
+    if (req.body.confidentiality == 'true') {
+      confidentiality = true
+    } else if (req.body.confidentiality == 'false') {
+      confidentiality = false
+    }  else {
+      errors.push('Confidentialité');
+    }
   }
 
-  let datas = {
-    title: req.body.title,
-    description: req.body.description,
-    owner: req.session.user.nickname,
-    date: new Date()
-  }
-
-  Mongo.getInstance()
-    .collection('ITTRoom')
-    .insertOne(datas,
-      function (err, result) {
-        if (err) {
-          if (err.message.indexOf('duplicate key') !== -1) {
-            return res.json({
-              status: false,
-              message: 'Une ITT Room avec le même titre a déjà été importé'
-            });
-          }
-        }
-        return res.redirect('/');
+    if (errors.length) {
+      return res.json({
+        status: false,
+        msg: 'Merci de vérifier les champs suivants: ' + errors.join(', ')
       })
-});
+    }
+
+    let datas = {
+      title: req.body.title,
+      confidentiality: confidentiality,
+      id_owner: req.session.user._id,
+      owner: req.session.user.nickname,
+      date: new Date()
+    }
+
+    Mongo.getInstance()
+      .collection('ITTRoom')
+      .insertOne(datas,
+        function (err, result) {
+          if (err) {
+            if (err.message.indexOf('duplicate key') !== -1) {
+              return res.json({
+                status: false,
+                message: 'Une ITT Room avec le même titre a déjà été importé'
+              });
+            }
+          }
+          return res.redirect('/');
+        })
+  });
 
 
 
@@ -128,34 +154,34 @@ router.delete('/:id', function (req, res, next) {
   const id = req.params.id;
 
   Mongo.getInstance()
-  .collection('ITTRoom')
-  .findOne({ 
-    _id: new ObjectId(id) 
-  }, (err, room) => {
-    if (err) {
-      return res.json({ status: false, message: err.message });
-    } 
-    if (!room._id) {
-      return res.json({ status: false, message: 'document non trouvé' });
-    } 
-    Mongo.getInstance()
-      .collection('ITTRoom')
-      .deleteOne({ 
-        _id: new ObjectId(id) 
-      }, function (err, result) {
-        console.log(result);
-        if (err) {
-          return res.json({
-            status: false,
-            message: err.message
+    .collection('ITTRoom')
+    .findOne({
+      _id: new ObjectId(id)
+    }, (err, room) => {
+      if (err) {
+        return res.json({ status: false, message: err.message });
+      }
+      if (!room._id) {
+        return res.json({ status: false, message: 'document non trouvé' });
+      }
+      Mongo.getInstance()
+        .collection('ITTRoom')
+        .deleteOne({
+          _id: new ObjectId(id)
+        }, function (err, result) {
+          console.log(result);
+          if (err) {
+            return res.json({
+              status: false,
+              message: err.message
+            });
+          }
+          res.json({
+            status: result.deletedCount === 1
           });
-        } 
-        res.json({
-          status: result.deletedCount === 1
         });
-      });
-    
-  });
+
+    });
 });
 
 module.exports = router;

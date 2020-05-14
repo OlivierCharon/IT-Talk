@@ -1,16 +1,16 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-<div class="container">
+<div class="container" id="index-container">
   <div class="row">
     <div class="col-md-12">
       <div class="card m-auto" style="width: 18rem;">
         {# <img class="card-img-top" src="..." alt="Card image cap"> #}
         <div class="card-body" id="login-card">
-          <h5 class="card-title">Se connecter à l'interface administrateur</h5>
+          <h5 class="card-title">Se connecter</h5>
           <form method="post" id="login" action="/users">
 
-            <label for="nickname" class="mt-2 mb-2">Votre adresse email</label>
+            <label for="nickname" class="mt-2 mb-2">Votre pseudo</label>
             {# <input type="text" name="nickname" class="mt-2 mb-2" id="nickname" placeholder="Nickname" required> PROD #}
             <input type="text" name="nickname" class="mt-2 mb-2" id="nickname" placeholder="Pseudo" required
               value="OlivierCharon"> {# DEBUG #}
