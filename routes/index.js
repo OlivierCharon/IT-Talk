@@ -15,6 +15,7 @@ router.get('/', function (req, res, next) {
 router.use(function (req, res, next) {
   // si la session n'existe pas
   if (!req.session.user) {
+    console.log('forbiden');
     return next(createError(403));
   }
   return next();
@@ -22,16 +23,17 @@ router.use(function (req, res, next) {
 
 /* return le dashboard des rooms */
 router.get('/', function (req, res, next) {
-  Mongo.getInstance()
-    .collection('ITTRoom')
-    .find()
-    .toArray(function (err, result) {
-      if (err) {
-        throw err;
-      } else {
-        res.render('/dashboard', { title: 'IT-Talk', allITTRoom: result });
-      }
-    })
+  res.render('dashboard', { title: 'IT-Talk'}); // DEBUG 
+  // Mongo.getInstance()
+  //   .collection('ITTRoom')
+  //   .find()
+  //   .toArray(function (err, result) {
+  //     if (err) {
+  //       throw err;
+  //     } else {
+  //       res.render('/dashboard', { title: 'IT-Talk', allITTRoom: result });
+  //     }
+  //   })
 });
 
 /* create ITT Room */

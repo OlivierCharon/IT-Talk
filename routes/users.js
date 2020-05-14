@@ -12,7 +12,7 @@ router.put('/', function (req, res, next) {
   Mongo.getInstance()
     .collection('users')
     .findOne({
-      email: req.body.email
+      nickname: req.body.nickname
     },
       function (err, response) {
         if (err) {
@@ -40,15 +40,15 @@ router.put('/', function (req, res, next) {
 
 /* Sign in */
 router.post('/', function (req, res, next) {
-
+  console.log('signin post');
   var errors = [];
 
-  if (!req.body.firstname || !/^([\w\s]{6,})$/.test(req.body.firstname)) {
-    errors.push('Prénom');
+  if (!req.body.nickname || !/^([\w\s]{6,})$/.test(req.body.nickname)) {
+    errors.push('Pseudo');
   }
 
-  if (!req.body.lastname || !/^([\w\s]{6,})$/.test(req.body.lastname)) {
-    errors.push('Nom');
+  if (!req.body.profilPicture) {
+    errors.push('Photo de profil');
   }
 
   if (!req.body.email || !/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(req.body.email)) {
@@ -74,8 +74,8 @@ router.post('/', function (req, res, next) {
   let password = crypto.createHash('sha256').update(req.body.password + salt).digest('hex');
 
   let datas = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
+    nickname: req.body.nickname,
+    profilPicture: req.body.profilPicture,
     email: req.body.email,
     password: password,
     salt: salt,
@@ -89,14 +89,13 @@ router.post('/', function (req, res, next) {
           if (err.message.indexOf('duplicate key') !== -1) {
             return res.json({
               status: false,
-              message: 'Cette adresse email est déjà utilisée'
+              message: 'Cette adresse email ou ce pseudo sont déjà utilisés'
             });
-          } else {
-            return res.json({
-              status: true,
-            })
-          }
+          }           
         }
+        return res.json({
+          status: true,
+        });
       })
 });
 

@@ -14,16 +14,14 @@ if (document.getElementById('login-link')) {
     });
 }
 
-
-
 if (document.getElementById('login')) {
     document.getElementById('login').addEventListener('submit', event => {
         event.preventDefault();
 
-        const email = event.target.querySelector('input[name=email]').value;
+        const nickname = event.target.querySelector('input[name=nickname]').value;
         const password = event.target.querySelector('input[name=password]').value;
         var data = {
-            'email': email,
+            'nickname': nickname,
             'password': password,
         };
         fetch('/users', {
@@ -50,18 +48,21 @@ if (document.getElementById('login')) {
 if (document.getElementById('signin')) {
     document.getElementById('signin').addEventListener('submit', event => {
         event.preventDefault();
-        const firstname = event.target.querySelector('input[name=firstname]').value;
-        const lastname = event.target.querySelector('input[name=lastname]').value;
+        let e = document.getElementById("profil-picture");
+        
+        const nickname = event.target.querySelector('input[name=nickname]').value;
+        const profilPicture = e.options[e.selectedIndex].value;
         const email = event.target.querySelector('input[name=email]').value;
         const password = event.target.querySelector('input[name=password]').value;
         const password2 = event.target.querySelector('input[name=password2]').value;
-        var data = {
-            'firstname': firstname,
-            'lastname': lastname,
+        let data = {
+            'nickname': nickname,
+            'profilPicture': profilPicture,
             'email': email,
             'password': password,
             'password2': password2,
         };
+        console.log('before fetch :'+JSON.stringify(data));
         fetch('/users', {
             method: 'post',
             headers: {

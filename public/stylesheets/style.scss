@@ -7,12 +7,8 @@ body {
 a {
   color: #00B7FF;
 }
-input[type=checkbox] {
-	display: none;
-}
-input#pp1[type=checkbox] {
-	+ {
-		label {
+
+div#pp1 {
 			background-image: url("../images/music.png");
 			border-color: white;
 			border-style: solid;
@@ -22,24 +18,10 @@ input#pp1[type=checkbox] {
       padding: 0 0 0 0px;
       background-repeat: no-repeat;
       background-size: 100%;
-		}
-	}
-	&:checked {
-		+ {
-			label {
-				border-color: red;
-				border-style: solid;
-				height: 50px;
-				width: 50px;
-				display: inline-block;
-				padding: 0 0 0 0px;
-			}
-		}
-	}
+	
+	
 }
-input#pp2[type=checkbox] {
-	+ {
-		label {
+div#pp2 {
 			background-image: url("../images/shoe.png");
 			border-color: white;
 			border-style: solid;
@@ -49,24 +31,10 @@ input#pp2[type=checkbox] {
       padding: 0 0 0 0px;
       background-repeat: no-repeat;
       background-size: 100%;
-		}
-	}
-	&:checked {
-		+ {
-			label {
-				border-color: red;
-				border-style: solid;
-				height: 50px;
-				width: 50px;
-				display: inline-block;
-				padding: 0 0 0 0px;
-			}
-		}
-	}
+	
+	
 }
-input#pp3[type=checkbox] {
-	+ {
-		label {
+div#pp3 {
 			background-image: url("../images/user.png");
 			border-color: white;
 			border-style: solid;
@@ -76,25 +44,11 @@ input#pp3[type=checkbox] {
       padding: 0 0 0 0px;
       background-repeat: no-repeat;
       background-size: 100%;
-		}
-	}
-	&:checked {
-		+ {
-			label {
-				border-color: red;
-				border-style: solid;
-				height: 50px;
-				width: 50px;
-				display: inline-block;
-				padding: 0 0 0 0px;
-			}
-		}
-	}
+	
+	
 }
-input#pp4[type=checkbox] {
-	+ {
-		label {
-      background-image: url("../images/water.png");
+div#pp4 {
+	     background-image: url("../images/water.png");
 			border-color: white;
 			border-style: solid;
 			height: 50px;
@@ -103,18 +57,6 @@ input#pp4[type=checkbox] {
       padding: 0 0 0 0px;
       background-repeat: no-repeat;
       background-size: 100%;
-		}
-	}
-	&:checked {
-		+ {
-			label {
-				border-color: red;
-				border-style: solid;
-				height: 50px;
-				width: 50px;
-				display: inline-block;
-				padding: 0 0 0 0px;
-			}
-		}
-	}
+	
+	
 }
