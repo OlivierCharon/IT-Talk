@@ -36,6 +36,7 @@ for (id in editIds) {
         event.preventDefault();
         const ITTchatId = event.currentTarget.getAttribute('id').substr(event.currentTarget.getAttribute('id').lastIndexOf('-') + 1);
         const ITTchatTitle = document.getElementById('title-'+ITTchatId).textContent;
+        console.log(document.getElementById('confidentiality-'+ITTchatId).textContent);
         const ITTchatConfidentiality = document.getElementById('confidentiality-'+ITTchatId).textContent;
         console.log(ITTchatTitle);
         console.log(document.getElementById('title-'+ITTchatId));
@@ -59,10 +60,10 @@ document.getElementById("edit-ITTchat-form").addEventListener('submit', event =>
     console.log(event.currentTarget);
     const id = event.target.querySelector('input[name=id-to-edit]').value;
     const title = event.target.querySelector('input[name=title-to-edit]').value;
-    console.log(id);
-    console.log(title);
+    const confidentiality = event.target.querySelector('input[name=confidentiality-to-edit]').value;
     var data = {
-        'title': title
+        'title': title,
+        confidentiality: confidentiality
     };
 
     

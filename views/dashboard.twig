@@ -51,9 +51,9 @@
                             <h5 id="title-{{ ITTchat._id }}" class="card-text font-weight-bold">
                                 {{ ITTchat.title | default('IT-Tchat')}}</h5>
                             {% if ITTchat.confidentiality == 0 %}
-                            <p class="text-success">Publique</p>
+                            <p class="text-success" id="confidentiality-{{ ITTchat._id }}">Publique</p>
                             {% else %}
-                            <p class="text-danger">Privé</p>
+                            <p class="text-danger" id="confidentiality-{{ ITTchat._id }}">Privé</p>
                             {% endif %}
                             <p><span class="users-count">301</span><br> participants</p>
                             <button type="button" class="btn mt-2 mb-2 btn-sm btn-primary"
@@ -61,7 +61,7 @@
                             {% if ITTchat.id_owner == user_id %}
                             <div class="d-flex justify-content-center align-items-center">
                                 <div class="btn-group">
-                                    <a href='/admin/{{ ITTchat._id }}' type="button"
+                                    <a href='/{{ ITTchat._id }}' type="button"
                                         class="btn btn-sm btn-outline-secondary" id="btn-edit-{{ ITTchat._id }}">
                                         <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16"
                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -73,7 +73,7 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                     </a>
-                                    <a href='/admin/{{ ITTchat._id }}' type="button"
+                                    <a href='/{{ ITTchat._id }}' type="button"
                                         class="btn btn-sm btn-outline-danger" id="btn-delete-{{ ITTchat._id }}">
                                         <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16"
                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -125,7 +125,7 @@
                         <h5 class="card-title">Modifier un IT-Tchat</h5>
                         <form method="put" id="edit-ITTchat-form" action="/">
 
-                            <input class="mt-2 mb-2 " id="id-to-edit" type="text" name="id-to-edit" value="" readonly
+                            <input class="mt-2 mb-2 d-none" id="id-to-edit" type="text" name="id-to-edit" value="" readonly
                                 required />
 
                             <label class="mt-2 mb-2" for="title-to-edit">Nom du tchat</label>

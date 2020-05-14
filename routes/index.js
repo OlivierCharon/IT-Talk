@@ -3,6 +3,7 @@ const createError = require('http-errors');
 const uniqid = require('uniqid');
 const Mongo = require('../bin/mongo');
 const ObjectId = require('mongodb').ObjectId;
+const socketio = require('socket.io');
 const router = express.Router();
 
 router.get('/', function (req, res, next) {
@@ -27,13 +28,10 @@ router.get('/', function (req, res, next) {
   Mongo.getInstance()
     .collection('ITTRoom')
     .find({
-      $or: [{
-        id_owner: req.session.user._id,
-        confidentiality: true,
-      },
-        {
-confidentiality: false,
-        }]
+      $or: [
+        {id_owner: req.session.user._id,
+        confidentiality: true},
+        {confidentiality: false}]
       })
     .toArray(function (err, result) {
       if (err) {
@@ -88,14 +86,6 @@ router.post('/', function (req, res, next) {
       .collection('ITTRoom')
       .insertOne(datas,
         function (err, result) {
-          if (err) {
-            if (err.message.indexOf('duplicate key') !== -1) {
-              return res.json({
-                status: false,
-                message: 'Une ITT Room avec le même titre a déjà été importé'
-              });
-            }
-          }
           return res.redirect('/');
         })
   });
@@ -111,9 +101,20 @@ router.get('/:id', function (req, res, next) {
 router.put('/:id', function (req, res, next) {
   const id = req.params.id;
   const title = req.body.title
-  const description = req.body.description
-
   let errors = [];
+
+  let confidentiality = null;
+  if (!req.body.confidentiality) {
+    errors.push('Confidentialité');
+  } else {
+    if (req.body.confidentiality == 'true') {
+      confidentiality = true
+    } else if (req.body.confidentiality == 'false') {
+      confidentiality = false
+    }  else {
+      errors.push('Confidentialité');
+    }
+  }
 
   if (!req.body.title || !/^([\w\s]{6,})$/.test(req.body.title)) {
     errors.push('Titre');
@@ -132,8 +133,8 @@ router.put('/:id', function (req, res, next) {
       _id: new ObjectId(id)
     }, {
       $set: {
-        title: title,
-        description: description
+        title: req.body.title,
+        confidentiality: confidentiality,
       }
     }, function (err, result) {
       if (err) {
